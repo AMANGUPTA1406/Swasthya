@@ -57,6 +57,7 @@ function Login() {
         }
       );
       localStorage.setItem("token", data.token);
+      
       dispatch(setUserInfo(jwt_decode(data.token).userId));
       setUserRole(role);
       getUser(jwt_decode(data.token).userId, role);
@@ -71,6 +72,7 @@ function Login() {
       const temp = await fetchData(`/user/getuser/${id}`);
       dispatch(setUserInfo(temp));
       if (role === "Admin") {
+        console.log(role);
         return navigate("/dashboard/home");
       } else if (role === "Patient"){
         return navigate("/");
