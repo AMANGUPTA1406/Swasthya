@@ -45,8 +45,14 @@ function Register() {
         body: data,
       })
         .then((res) => res.json())
-        .then((data) => setFile(data.url.toString()));
-      setLoading(false);
+        .then((data) => {
+          setFile(data.url.toString());
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error("Failed to upload image");
+        });
     } else {
       setLoading(false);
       toast.error("Please select an image in jpeg or png format");
@@ -58,7 +64,6 @@ function Register() {
       e.preventDefault();
   
       if (loading) return;
-      if (file === "") return;
       const { firstname, lastname, email, password, confpassword } = formDetails;
       if (!firstname || !lastname || !email || !password || !confpassword || !selectedRole) {
         return toast.error("Input field should not be empty");
@@ -78,7 +83,7 @@ function Register() {
           lastname,
           email,
           password,
-          pic: file,
+          pic: file || null,
           role: selectedRole,
         }),
         {
